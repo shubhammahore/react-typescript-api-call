@@ -10,17 +10,39 @@ function App() {
     title: "",
     completed: false
   };
- 
-  
 
+
+ 
+  const headers= { 
+    'Content-Type': 'application/json'
+  }
+  
   const [activities, setActivities] = useState<Message>(initialTutorialState);
   
   useEffect(() => {
-    axios
+
+    const headers= { 
+      'Content-Type': 'application/json'
+    }
+    let data = JSON.stringify("Sample");
+
+    //Post API
+    axios.post("https://localhost:44371/api/Values",data,{headers})
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        console.log("POST API Call success");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      //Get API
+      axios
       .get("https://localhost:44362/WeatherForecast")
       .then((response) => {
         console.log(response.data);
-        setActivities(response.data as Message);//Line where getting error Type is unknown
+        console.log("Get API Call success");
+        setActivities(response.data as Message);//Line where i was getting error Type is unknown
       });
       
   }, [])
